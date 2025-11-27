@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Databricks – Parameterized & Dynamic Workflows</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        margin: 0;
+        padding: 0 16px 40px;
+        line-height: 1.6;
+        background-color: #f5f5f5;
+      }
+      h1,
+      h2,
+      h3 {
+        color: #222;
+      }
+      h1 {
+        border-bottom: 2px solid #4caf50;
+        padding-bottom: 6px;
+        margin-top: 20px;
+      }
+      .section {
+        background-color: #fff;
+        padding: 16px 20px;
+        margin-top: 16px;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      }
+      .w3-code {
+        font-family: Consolas, "Courier New", monospace;
+        background-color: #f1f1f1;
+        border-left: 4px solid #4caf50;
+        padding: 8px 12px;
+        overflow-x: auto;
+        font-size: 13px;
+        white-space: pre;
+      }
+      .w3-note {
+        border-left: 6px solid #ff9800;
+        background-color: #fff3cd;
+        padding: 8px 12px;
+        margin: 10px 0;
+        font-size: 14px;
+      }
+      .w3-example {
+        border-left: 6px solid #4caf50;
+        background-color: #f9fffb;
+        padding: 10px 12px;
+        margin: 12px 0;
+      }
+      .w3-table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 8px 0;
+        font-size: 14px;
+      }
+      .w3-table th,
+      .w3-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+      .w3-table th {
+        background-color: #4caf50;
+        color: white;
+        text-align: left;
+      }
+      .tag {
+        display: inline-block;
+        background-color: #e0f2f1;
+        color: #00695c;
+        font-size: 12px;
+        padding: 2px 6px;
+        border-radius: 3px;
+        margin-right: 4px;
+      }
+      .highlight {
+        color: #4caf50;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Databricks Workflows – Parameterized vs Dynamic</h1>
+
+    <!-- 1. Quick Overview -->
+    <div class="section">
+      <h2>1. Overview</h2>
+      <p>
+        In Databricks, a <strong>Workflow</strong> (Job) is a set of tasks
+        (notebooks, SQL, Python scripts, etc.) that run in a defined order. Two
+        very important concepts are:
+      </p>
+      <ul>
+        <li>
+          <strong>Parameterized Workflow</strong> – the workflow behavior
+          changes based on input parameters.
+        </li>
+        <li>
+          <strong>Dynamic Workflow</strong> – the path taken or logic executed
+          changes at runtime based on data, parameters, or task results.
+        </li>
+      </ul>
+      <div class="w3-note">
+        <strong>Remember:</strong> In Databricks UI, you usually implement this
+        via <span class="highlight">Job parameters</span>,
+        <span class="highlight">widgets</span>, and
+        <span class="highlight">task dependencies / Run-if conditions</span>.
+      </div>
+    </div>
+
+    <!-- 2. Parameterized Workflow -->
+    <div class="section">
+      <h2>2. Parameterized Workflow</h2>
+
+      <h3>2.1 Definition</h3>
+      <p>
+        A <strong>parameterized workflow</strong> is a Databricks Job/Workflow
+        whose behavior is controlled by external
+        <strong>inputs (parameters)</strong> instead of hard-coded values. You
+        can run the same workflow for different dates, files, environments, etc.
+        by changing the parameters.
+      </p>
+
+      <div class="w3-example">
+        <strong>Typical Parameters:</strong>
+        <ul>
+          <li><code>file_name</code> – which CSV file to process</li>
+          <li><code>base_path</code> – which folder / volume to read from</li>
+          <li><code>process_date</code> – which partition / date to process</li>
+          <li><code>env</code> – dev / test / prod</li>
+        </ul>
+      </div>
+
+      <h3>2.2 Example – File Name as Parameter</h3>
+      <p>
+        Notebook used as a task in the Job. It reads two parameters:
+        <code>file_name</code> and <code>base_path</code>, then counts rows in
+        the CSV file.
+      </p>
+
+      <div class="w3-code">
+        dbutils.widgets.text("file_name", "", "CSV file name (e.g.
+        DimSalesTerritory.csv)") dbutils.widgets.text( "base_path",
+        "/Volumes/trg_catalog/trg_schema/trg_volume", "Base folder path" )
+        file_name = dbutils.widgets.get("file_name") base_path =
+        dbutils.widgets.get("base_path") if not file_name: raise
+        ValueError("file_name parameter is empty – please pass a CSV file
+        name.") full_path = f"{base_path.rstrip('/')}/{file_name}" print(f"📂
+        Reading file: {full_path}") df = ( spark.read .option("header", True)
+        .csv(full_path) ) row_count = df.count() print(f"✅ Row count in
+        {file_name}: {row_count}")
+      </div>
+
+      <h3>2.3 Job-Level Parameter Mapping</h3>
+      <p>
+        In the Job UI (Tasks &rarr; Base parameters), you map job parameters to
+        notebook widgets:
+      </p>
+
+      <table class="w3-table">
+        <tr>
+          <th>Parameter Name</th>
+          <th>Example Value</th>
+          <th>Used By</th>
+        </tr>
+        <tr>
+          <td><code>file_name</code></td>
+          <td><code>DimSalesTerritory.csv</code></td>
+          <td>Notebook widget <code>file_name</code></td>
+        </tr>
+        <tr>
+          <td><code>base_path</code></td>
+          <td><code>/Volumes/trg_catalog/trg_schema/trg_volume</code></td>
+          <td>Notebook widget <code>base_path</code></td>
+        </tr>
+      </table>
+
+      <div class="w3-note">
+        By changing only <code>file_name</code>, the same workflow can process
+        <code>Customers.csv</code>, <code>Orders.csv</code>, etc. without
+        modifying the code. This is a <strong>parameterized</strong> Databricks
+        workflow.
+      </div>
+    </div>
+
+    <!-- 3. Dynamic Workflow -->
+    <div class="section">
+      <h2>3. Dynamic Workflow</h2>
+
+      <h3>3.1 Definition</h3>
+      <p>
+        A <strong>dynamic workflow</strong> is a workflow whose
+        <strong>execution path or logic</strong>
+        changes at runtime based on:
+      </p>
+      <ul>
+        <li>Parameter values (e.g., which country, which mode)</li>
+        <li>Data values (e.g., row count, error count)</li>
+        <li>Task status (success / failure / timeout)</li>
+      </ul>
+
+      <div class="w3-note">
+        In Databricks Workflows, dynamic behavior is usually implemented via:
+        <ul>
+          <li>
+            <span class="highlight">Run-if conditions</span> for tasks (e.g.,
+            run only if previous task failed).
+          </li>
+          <li>
+            <span class="highlight">Branching</span> (success path vs failure
+            path).
+          </li>
+          <li>
+            <span class="highlight">Conditional logic inside notebooks</span>
+            (if/else based on data).
+          </li>
+        </ul>
+      </div>
+
+      <h3>3.2 Example – Success vs Failure Branch</h3>
+      <p>
+        Assume Task <code>count_rows</code> enforces a business rule: file
+        cannot be empty. If row count is 0, it fails the task.
+      </p>
+
+      <div class="w3-code">
+        row_count = df.count() print(f"✅ Row count in {file_name}:
+        {row_count}") # Business rule: require at least 1 row if row_count == 0:
+        raise Exception(f"🚫 Business rule failure: {file_name} has 0 rows.
+        Failing the task.") # Store values only if rule passes
+        dbutils.jobs.taskValues.set(key="row_count", value=row_count)
+        dbutils.jobs.taskValues.set(key="file_name", value=file_name)
+      </div>
+
+      <p>Workflow tasks:</p>
+      <ul>
+        <li><span class="tag">Task 1</span> <code>count_rows</code></li>
+        <li>
+          <span class="tag">Task 2</span> <code>print_result</code> – run if
+          previous task succeeded
+        </li>
+        <li>
+          <span class="tag">Task 3</span> <code>notify_failure</code> – run if
+          previous task failed
+        </li>
+      </ul>
+
+      <p><strong>Dynamic behavior:</strong></p>
+      <ul>
+        <li>
+          If <code>count_rows</code> succeeds (valid data) →
+          <code>print_result</code> runs (success path).
+        </li>
+        <li>
+          If <code>count_rows</code> fails (no data, missing file, etc.) →
+          <code>notify_failure</code> runs (failure path).
+        </li>
+      </ul>
+
+      <div class="w3-code">
+        # Notebook for failure notification (Task 3) print("⚠️ ETL Failure
+        Notification") print("A previous task in the Databricks Workflow has
+        failed.")
+      </div>
+    </div>
+
+    <!-- 4. Parameterized + Dynamic Together -->
+    <div class="section">
+      <h2>4. Parameterized + Dynamic Together</h2>
+      <p>
+        Real-world Databricks pipelines are usually
+        <strong>both</strong> parameterized and dynamic:
+      </p>
+      <ul>
+        <li>
+          Parameterized by <code>file_name</code>, <code>process_date</code>,
+          <code>country_code</code> etc.
+        </li>
+        <li>
+          Dynamic behavior based on data and status:
+          <ul>
+            <li>If row count &lt; threshold → fail task and trigger alert.</li>
+            <li>
+              If <code>country_code == "IN"</code> → apply GST logic; else use
+              default logic.
+            </li>
+            <li>If upstream task fails → run only alert branch.</li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="w3-note">
+        <strong>Interview-style one-liners:</strong><br /><br />
+        <strong>Parameterized Workflow:</strong>
+        A Databricks workflow where inputs are exposed as parameters (job
+        parameters + widgets), so the same job can run for different files,
+        dates, or environments without changing the code.<br /><br />
+        <strong>Dynamic Workflow:</strong>
+        A Databricks workflow whose execution path or internal logic changes at
+        runtime based on parameters, data (like row counts), or upstream task
+        success/failure.
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,108 @@
+What is Databricks workflows?
+
+![alt text](image.png)
+
+![alt text](image-1.png)
+
+![alt text](image-2.png)
+
+![alt text](image-4.png)
+Job and pipelines
+
+Create job 
+
+# Step-by-step: Databricks Job with Two Tasks
+
+Create a new Notebook name it as count computer
+
+```python
+print("Test Job Parameter")
+
+csv_path = "/Volumes/trg_catalog/trg_schema/trg_volume/DimSalesTerritory.csv"
+
+df = (spark.read
+        .option("header", True)
+        .option("inferSchema", True)
+        .csv(csv_path))
+
+row_count = df.count()
+print(f"Row count stored in variable: {row_count}")
+
+dbutils.jobs.taskValues.set(
+    key="record_count",
+    value=row_count
+)
+
+```
+Add new notebook name it as count_printer.
+```python
+count_value = dbutils.jobs.taskValues.get(taskKey = "task_1", key = "record_count")
+print("Count of rows in the table : ", count_value)
+```
+## 🔹 Task 1 – Producer (sets `record_count`)
+
+**Task name**
+
+- Use a simple name like: `task_1`  
+- ⚠️ If you use `task_1` here, it **must** match `taskKey="task_1"` in your second notebook.
+
+**Configuration**
+
+- **Type:** `Notebook`
+- **Source:** `Workspace`
+- **Path:**
+  - Click **Select Notebook**
+  - Choose your first notebook (the one with `SELECT COUNT` and:
+    ```python
+    dbutils.jobs.taskValues.set(key="record_count", value=row_count)
+    ```
+
+- **Compute:**
+  - Choose an existing cluster **or** keep **Serverless** if it’s available.
+
+- Click **Create task** at the bottom.
+
+✅ That finishes **Task 1** inside this job.
+
+---
+
+## 🔹 Task 2 – Consumer (reads `record_count`)
+
+After **Task 1** is created:
+
+1. In the same **Tasks** tab, click **+ (Add task)** below or beside the first box.
+2. Set the following:
+
+   - **Task name:** `task_2`
+   - **Type:** `Notebook`
+   - **Source:** `Workspace`
+   - **Path:**  
+     Pick your second notebook (the one with):
+     ```python
+     count_value = dbutils.jobs.taskValues.get(taskKey="task_1", key="record_count")
+     print("Count of rows in the table : ", count_value)
+     ```
+
+   - **Depends on:** select `task_1`.
+   - **Compute:** choose your cluster or Serverless.
+3. Click **Create task**.
+
+---
+
+## ▶️ Run the Job
+
+1. Top-right of the Job page → click **Run now**.
+2. Open the latest run.
+3. Click **task_2** → **View logs**.
+
+You should see an output similar to:
+
+```text
+Count of rows in the table :  <some number>
+```
+![alt text](image-5.png)
+![alt text](image-6.png)
+![alt text](image-7.png)
+![alt text](image-8.png)
+
+## Job with Parameter

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Unity Catalog Tutorial – Azure Databricks</title>
+    <style>
+      /* ---------- Global ---------- */
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f4fb; /* very light lilac */
+        color: #222;
+        line-height: 1.6;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin-top: 0;
+        color: #4a148c; /* deep lilac/purple */
+      }
+
+      a {
+        color: #ad1457;
+      }
+
+      /* ---------- Header Bar ---------- */
+      .topbar {
+        background: linear-gradient(90deg, #ba68c8, #f48fb1);
+        padding: 14px 20px;
+        color: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+      }
+      .topbar h1 {
+        margin: 0;
+        font-size: 24px;
+      }
+      .topbar small {
+        display: block;
+        font-size: 13px;
+        opacity: 0.9;
+      }
+
+      /* ---------- Layout ---------- */
+      .content {
+        max-width: 1100px;
+        margin: 20px auto 40px;
+        padding: 0 16px;
+      }
+
+      .section {
+        background-color: #ffffff;
+        padding: 16px 20px;
+        margin-bottom: 16px;
+        border-radius: 6px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        border-top: 4px solid #ba68c8; /* lilac */
+      }
+
+      /* ---------- W3Schools-like helpers ---------- */
+      .w3-note {
+        border-left: 6px solid #f06292; /* pink */
+        background-color: #fce4ec; /* very light pink */
+        padding: 10px 12px;
+        margin: 12px 0;
+        font-size: 14px;
+      }
+
+      .w3-example {
+        border-left: 6px solid #ba68c8;
+        background-color: #f3e5f5; /* light lilac */
+        padding: 10px 12px;
+        margin: 12px 0;
+        font-size: 14px;
+      }
+
+      .w3-code {
+        font-family: Consolas, "Courier New", monospace;
+        background-color: #faf5fd;
+        border-left: 4px solid #ba68c8;
+        padding: 8px 12px;
+        margin: 8px 0 12px;
+        font-size: 13px;
+        overflow-x: auto;
+        white-space: pre;
+      }
+
+      .tag {
+        display: inline-block;
+        padding: 2px 6px;
+        font-size: 11px;
+        border-radius: 4px;
+        background-color: #e1bee7; /* lilac */
+        color: #4a148c;
+        margin-right: 4px;
+      }
+
+      .pill {
+        display: inline-block;
+        padding: 2px 8px;
+        margin: 2px;
+        font-size: 12px;
+        border-radius: 999px;
+        background-color: #f8bbd0;
+        color: #4a148c;
+      }
+
+      .subheading {
+        font-size: 15px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: #ad1457;
+        margin-bottom: 4px;
+      }
+
+      /* ---------- Table ---------- */
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 10px 0;
+        font-size: 14px;
+      }
+      table th,
+      table td {
+        border: 1px solid #e0e0e0;
+        padding: 8px;
+      }
+      table th {
+        background-color: #e1bee7;
+        color: #4a148c;
+        text-align: left;
+      }
+      table tr:nth-child(even) {
+        background-color: #faf5fd;
+      }
+
+      /* ---------- Callouts for interview points ---------- */
+      .bullet-box {
+        background-color: #fff3e0;
+        border-left: 5px solid #ffb74d;
+        padding: 10px 12px;
+        font-size: 14px;
+        margin: 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <h1>Unity Catalog – Azure Databricks Governance Tutorial</h1>
+      <small
+        >Color theme: <strong>lilac</strong> &amp; <strong>pink</strong> •
+        W3Schools-style notes for teaching &amp; demos</small
+      >
+    </div>
+
+    <div class="content">
+      <!-- 1. Overview -->
+      <div class="section">
+        <div class="subheading">Section 1</div>
+        <h2>What is Unity Catalog?</h2>
+        <p>
+          <strong>Unity Catalog</strong> is Databricks’
+          <strong>central governance and security layer</strong>
+          for all data and AI assets across workspaces. Think of it as a single
+          place to organize, secure, and audit:
+        </p>
+        <ul>
+          <li>Tables, views, and volumes (files)</li>
+          <li>Functions and (in advanced setups) models, dashboards, etc.</li>
+        </ul>
+
+        <p>
+          It introduces a standard <strong>three-level namespace</strong>:
+          <span class="pill">catalog</span>.<span class="pill">schema</span
+          >.<span class="pill">table</span>, for example:
+          <code>sales.gold.sales_by_country_month</code>.
+        </p>
+
+        <div class="w3-note">
+          <strong>Pronunciation:</strong> just say “<strong
+            >Unity Catalog</strong
+          >” normally. The important word you will reuse everywhere is the
+          <em>catalog</em>
+          — the top-level container in the naming hierarchy.
+        </div>
+      </div>
+
+      <!-- 2. Why Unity Catalog -->
+      <div class="section">
+        <div class="subheading">Section 2</div>
+        <h2>Why do we use Unity Catalog?</h2>
+
+        <h3>2.1 Problems before Unity Catalog (classic Hive Metastore)</h3>
+        <ul>
+          <li>Each Databricks workspace had its own hive metastore.</li>
+          <li>
+            Permissions managed separately per workspace → duplicated,
+            inconsistent rules.
+          </li>
+          <li>Files in ADLS / S3 and tables were governed differently.</li>
+          <li>
+            Difficult to answer “who can access which table?” or “who ran this
+            query?”.
+          </li>
+        </ul>
+
+        <h3>2.2 What Unity Catalog solves</h3>
+        <table>
+          <tr>
+            <th>Capability</th>
+            <th>How Unity Catalog helps</th>
+          </tr>
+          <tr>
+            <td>Central governance</td>
+            <td>
+              One metastore for many workspaces; common policies and auditing.
+            </td>
+          </tr>
+          <tr>
+            <td>Fine-grained access</td>
+            <td>
+              GRANT/REVOKE on <strong>catalog, schema, table, column</strong>,
+              plus row filters and masking (editions permitting).
+            </td>
+          </tr>
+          <tr>
+            <td>Consistent naming</td>
+            <td>
+              Everything is addressed as <code>catalog.schema.table</code> in
+              SQL, Python, jobs, BI tools.
+            </td>
+          </tr>
+          <tr>
+            <td>Lineage &amp; auditing</td>
+            <td>
+              End-to-end lineage from ingestion to dashboard; see which jobs
+              &amp; queries touched which data.
+            </td>
+          </tr>
+          <tr>
+            <td>Multi-workspace</td>
+            <td>
+              Multiple workspaces can share one metastore and governance model.
+            </td>
+          </tr>
+        </table>
+
+        <div class="w3-note">
+          <strong>Trainer one-liner:</strong><br />
+          Unity Catalog is important because it gives us <em>one place</em> to
+          manage security, PII protection, and lineage for all Databricks data
+          instead of separate, messy hive metastores.
+        </div>
+      </div>
+
+      <!-- 3. Key Concepts -->
+      <div class="section">
+        <div class="subheading">Section 3</div>
+        <h2>Key Objects in Unity Catalog</h2>
+
+        <h3>3.1 Metastore</h3>
+        <ul>
+          <li>Created at the <strong>account</strong> level by an admin.</li>
+          <li>
+            Bound to a region and a “root” storage (ADLS account + container on
+            Azure).
+          </li>
+          <li>Holds all catalogs, schemas, objects, and permissions.</li>
+        </ul>
+
+        <h3>3.2 Catalog</h3>
+        <p>A top-level logical container. Examples:</p>
+        <ul>
+          <li>
+            <code>dev</code>, <code>test</code>,
+            <code>prod</code> (environment-based)
+          </li>
+          <li>
+            <code>sales</code>, <code>finance</code>,
+            <code>marketing</code> (domain-based)
+          </li>
+        </ul>
+
+        <h3>3.3 Schema</h3>
+        <p>
+          Second level under catalog. Often used for zones or subject areas:
+        </p>
+        <ul>
+          <li>
+            <code>sales.bronze</code>, <code>sales.silver</code>,
+            <code>sales.gold</code>
+          </li>
+          <li>or <code>prod.sales_dw</code>, <code>prod.staging</code></li>
+        </ul>
+
+        <h3>3.4 Tables &amp; Views</h3>
+        <p>
+          Data objects referenced as <code>catalog.schema.table</code> — for
+          example <code>sales.gold.fact_orders</code>.
+        </p>
+
+        <h3>3.5 Volumes</h3>
+        <p>
+          Governed folders for files, managed by Unity Catalog. Path style:
+          <code>/Volumes/catalog/schema/volume_name/...</code>
+        </p>
+        <div class="w3-example">
+          Example:
+          <code>/Volumes/sales/bronze/files/2025/11/sales_2025_11_01.csv</code>
+        </div>
+      </div>
+
+      <!-- 4. Architecture on Azure -->
+      <div class="section">
+        <div class="subheading">Section 4</div>
+        <h2>Unity Catalog with Azure Databricks – Architecture</h2>
+        <p>On Azure, a typical pattern looks like this:</p>
+        <div class="w3-code">
+          Azure Databricks Workspaces │ ▼ Unity Catalog Metastore (catalogs,
+          schemas, tables, volumes, permissions, lineage) │ ▼ ADLS Gen2 Storage
+          Accounts - Root storage for managed tables - External locations for
+          existing data
+        </div>
+
+        <ul>
+          <li>Data lives in <strong>ADLS Gen2</strong> containers.</li>
+          <li>
+            Unity Catalog uses a storage account &amp; container for its
+            <em>managed</em> data + metadata.
+          </li>
+          <li>
+            Multiple workspaces can attach to the same metastore and share
+            governance rules.
+          </li>
+        </ul>
+      </div>
+
+      <!-- 5. Real-world Scenario -->
+      <div class="section">
+        <div class="subheading">Section 5</div>
+        <h2>Real-World Scenario – Sales Data with Bronze / Silver / Gold</h2>
+
+        <p>
+          <strong>Story:</strong> Sales CSV files are stored in ADLS. Data
+          engineers must load them into bronze → silver → gold tables. Analysts
+          should only see the <em>gold</em> tables and not raw data. All access
+          is controlled via Unity Catalog.
+        </p>
+
+        <h3>5.1 Create Catalog &amp; Schemas</h3>
+        <div class="w3-code">
+          -- Run in a Unity Catalog enabled warehouse / cluster CREATE CATALOG
+          IF NOT EXISTS sales COMMENT 'Sales analytics catalog – Unity Catalog
+          demo'; CREATE SCHEMA IF NOT EXISTS sales.bronze COMMENT 'Raw ingested
+          data (minimal transformations)'; CREATE SCHEMA IF NOT EXISTS
+          sales.silver COMMENT 'Cleaned, conformed data'; CREATE SCHEMA IF NOT
+          EXISTS sales.gold COMMENT 'Curated, analytics-ready tables'; USE
+          CATALOG sales; USE SCHEMA bronze;
+        </div>
+
+        <h3>5.2 Create a Volume and Load CSV</h3>
+        <div class="w3-code">
+          -- Inside sales.bronze CREATE VOLUME IF NOT EXISTS sales.bronze.files
+          COMMENT 'Managed volume for raw sales CSV files';
+        </div>
+        <p>
+          Upload CSVs into the volume using the Databricks UI (<em
+            >Catalog → sales → bronze → volumes → files → Upload</em
+          >).
+        </p>
+
+        <div class="w3-code">
+          # PySpark – read from the volume from pyspark.sql.functions import *
+          raw_path = "/Volumes/sales/bronze/files/2025/11/" df_raw = (
+          spark.read .option("header", True) .option("inferSchema", True)
+          .csv(raw_path) ) display(df_raw.limit(5))
+        </div>
+
+        <div class="w3-code">
+          -- Save as bronze Delta table CREATE OR REPLACE TABLE
+          sales.bronze.sales_raw AS SELECT * FROM
+          csv.`/Volumes/sales/bronze/files/2025/11/`;
+        </div>
+
+        <h3>5.3 Build Silver and Gold Tables</h3>
+        <div class="w3-code">
+          USE CATALOG sales; USE SCHEMA silver; CREATE OR REPLACE TABLE
+          sales.silver.sales_clean AS SELECT CAST(order_id AS BIGINT) AS
+          order_id, CAST(customer_id AS BIGINT) AS customer_id, CAST(order_date
+          AS DATE) AS order_date, CAST(sales_amount AS DECIMAL(18,2)) AS
+          sales_amount, UPPER(TRIM(country)) AS country FROM
+          sales.bronze.sales_raw WHERE order_id IS NOT NULL AND sales_amount IS
+          NOT NULL;
+        </div>
+
+        <div class="w3-code">
+          USE CATALOG sales; USE SCHEMA gold; CREATE OR REPLACE TABLE
+          sales.gold.sales_by_country_month AS SELECT country,
+          DATE_TRUNC('month', order_date) AS order_month, SUM(sales_amount) AS
+          total_sales, COUNT(*) AS order_count FROM sales.silver.sales_clean
+          GROUP BY country, DATE_TRUNC('month', order_date);
+        </div>
+      </div>
+
+      <!-- 6. Permissions Demo -->
+      <div class="section">
+        <div class="subheading">Section 6</div>
+        <h2>Unity Catalog Permissions – Engineers vs Analysts</h2>
+
+        <p>
+          Create two groups in the Databricks Admin UI:
+          <span class="tag">sales_engineers</span>
+          <span class="tag">sales_analysts</span>
+        </p>
+
+        <h3>6.1 Grant USAGE and SELECT to Analysts (Gold Only)</h3>
+        <div class="w3-code">
+          -- Allow analysts to see and use catalog + schema GRANT USAGE ON
+          CATALOG sales TO `sales_analysts`; GRANT USAGE ON SCHEMA sales.gold TO
+          `sales_analysts`; -- Read-only on gold table GRANT SELECT ON TABLE
+          sales.gold.sales_by_country_month TO `sales_analysts`;
+        </div>
+
+        <h3>6.2 Engineering Permissions (Bronze / Silver / Gold)</h3>
+        <div class="w3-code">
+          GRANT USAGE ON CATALOG sales TO `sales_engineers`; GRANT USAGE ON
+          SCHEMA sales.bronze TO `sales_engineers`; GRANT USAGE ON SCHEMA
+          sales.silver TO `sales_engineers`; GRANT USAGE ON SCHEMA sales.gold TO
+          `sales_engineers`; GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE
+          sales.bronze.sales_raw TO `sales_engineers`; GRANT SELECT, INSERT,
+          UPDATE, DELETE ON TABLE sales.silver.sales_clean TO `sales_engineers`;
+          GRANT SELECT ON TABLE sales.gold.sales_by_country_month TO
+          `sales_engineers`;
+        </div>
+
+        <div class="w3-note">
+          <strong>Result:</strong><br />
+          <ul>
+            <li><strong>Analysts</strong> see only curated gold tables.</li>
+            <li>
+              <strong>Engineers</strong> can work on all layers of the medallion
+              architecture.
+            </li>
+            <li>
+              All access rules are centralized in Unity Catalog (no ad-hoc ACLs
+              per workspace).
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 7. Interview / Teaching Points -->
+      <div class="section">
+        <div class="subheading">Section 7</div>
+        <h2>Unity Catalog – Interview Style One-Liners</h2>
+
+        <div class="bullet-box">
+          <strong>Q: What is Unity Catalog?</strong><br />
+          A: Unity Catalog is Databricks’ centralized governance layer that
+          manages catalogs, schemas, tables, volumes, and permissions across
+          workspaces using a three-level namespace
+          <code>catalog.schema.table</code>.
+        </div>
+
+        <div class="bullet-box">
+          <strong>Q: Why is Unity Catalog important?</strong><br />
+          A: It replaces scattered hive metastores with one consistent system
+          for security, PII protection, access control, and lineage – essential
+          for enterprise data platforms.
+        </div>
+
+        <div class="bullet-box">
+          <strong>Q: How do you use Unity Catalog on Azure Databricks?</strong
+          ><br />
+          A: Attach workspaces to a UC metastore, store data in ADLS Gen2,
+          create catalogs/schemas/tables, and manage permissions with SQL
+          <code>GRANT</code>/<code>REVOKE</code>
+          and workspace groups (analysts, engineers, etc.).
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
