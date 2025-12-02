@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Amazon MWAA (Managed Workflows for Apache Airflow) – Overview</title>
+    <style>
+      /* ---------- Global ---------- */
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f4fb; /* very light lilac */
+        color: #222;
+        line-height: 1.6;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin-top: 0;
+        color: #4a148c; /* deep lilac/purple */
+      }
+
+      a {
+        color: #ad1457;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+
+      /* ---------- Header Bar ---------- */
+      .topbar {
+        background: linear-gradient(90deg, #ba68c8, #f48fb1);
+        padding: 14px 20px;
+        color: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+      }
+      .topbar h1 {
+        margin: 0;
+        font-size: 24px;
+      }
+      .topbar small {
+        display: block;
+        font-size: 13px;
+        opacity: 0.9;
+      }
+
+      /* ---------- Layout ---------- */
+      .content {
+        max-width: 1100px;
+        margin: 20px auto 40px;
+        padding: 0 16px;
+      }
+
+      .section {
+        background-color: #ffffff;
+        padding: 16px 20px;
+        margin-bottom: 16px;
+        border-radius: 6px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        border-top: 4px solid #ba68c8; /* lilac */
+      }
+
+      /* ---------- W3Schools-like helpers ---------- */
+      .subheading {
+        font-size: 15px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: #ad1457;
+        margin-bottom: 4px;
+      }
+
+      .w3-note {
+        border-left: 6px solid #f06292; /* pink */
+        background-color: #fce4ec; /* very light pink */
+        padding: 10px 12px;
+        margin: 12px 0;
+        font-size: 14px;
+      }
+
+      .w3-example {
+        border-left: 6px solid #ba68c8;
+        background-color: #f3e5f5; /* light lilac */
+        padding: 10px 12px;
+        margin: 12px 0;
+        font-size: 14px;
+      }
+
+      .w3-code {
+        font-family: Consolas, "Courier New", monospace;
+        background-color: #faf5fd;
+        border-left: 4px solid #ba68c8;
+        padding: 8px 12px;
+        margin: 8px 0 12px;
+        font-size: 13px;
+        overflow-x: auto;
+        white-space: pre;
+      }
+
+      .image-box {
+        border: 1px dashed #ce93d8;
+        background-color: #f8bbd020;
+        padding: 10px 12px;
+        margin: 10px 0;
+        border-radius: 6px;
+        font-size: 13px;
+        color: #4a148c;
+      }
+
+      .tag {
+        display: inline-block;
+        padding: 2px 6px;
+        font-size: 11px;
+        border-radius: 4px;
+        background-color: #e1bee7; /* lilac */
+        color: #4a148c;
+        margin-right: 4px;
+      }
+
+      .pill {
+        display: inline-block;
+        padding: 2px 8px;
+        margin: 2px;
+        font-size: 12px;
+        border-radius: 999px;
+        background-color: #f8bbd0;
+        color: #4a148c;
+      }
+
+      /* ---------- Table ---------- */
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 10px 0;
+        font-size: 14px;
+      }
+      table th,
+      table td {
+        border: 1px solid #e0e0e0;
+        padding: 8px;
+      }
+      table th {
+        background-color: #e1bee7;
+        color: #4a148c;
+        text-align: left;
+      }
+      table tr:nth-child(even) {
+        background-color: #faf5fd;
+      }
+
+      /* ---------- Callouts ---------- */
+      .bullet-box {
+        background-color: #fff3e0;
+        border-left: 5px solid #ffb74d;
+        padding: 10px 12px;
+        font-size: 14px;
+        margin: 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <h1>Amazon MWAA – Managed Workflows for Apache Airflow</h1>
+    </div>
+
+    <div class="content">
+      <!-- 1. Overview -->
+      <div class="section">
+        <div class="subheading">Section 1</div>
+        <h2>What is Amazon MWAA?</h2>
+        <a href="https://aws.amazon.com/managed-workflows-for-apache-airflow/"
+          >aws mwaa overview</a
+        >
+        <a
+          href="https://docs.aws.amazon.com/mwaa/latest/userguide/what-is-mwaa.html#architecture-mwaa"
+          >aws mwaa arch
+        </a>
+        <p>
+          <strong>Amazon Managed Workflows for Apache Airflow (MWAA)</strong> is
+          a <strong>fully managed Apache Airflow service</strong> on AWS.
+        </p>
+
+        <ul>
+          <li>
+            You still write workflows as
+            <strong>Apache Airflow DAGs in Python</strong>.
+          </li>
+          <li>
+            AWS manages the <strong>Airflow infrastructure</strong>: environment
+            provisioning, scaling, patching, backups, monitoring.
+          </li>
+        </ul>
+
+        <div class="w3-note">
+          <strong>One-line explanation:</strong><br />
+          Amazon MWAA ≈ “<em>Airflow as a managed service</em>” tightly
+          integrated with AWS.
+        </div>
+
+        <div class="image-box">
+          <strong>Conceptual image (Architecture overview):</strong><br />
+          <pre>
++---------------------------+
+|       Your DAG Code       |
+|   - Python DAG files      |
+|   - Airflow plugins       |
++-------------+-------------+
+              |
+              v
++---------------------------+
+|   Amazon MWAA Environment |
+|  - Managed Airflow        |
+|  - Scheduler, workers     |
+|  - Webserver (UI)         |
++-------------+-------------+
+              |
+              v
++---------------------------+
+|       AWS Services        |
+|  S3, Glue, EMR, Lambda,   |
+|  Redshift, ECS, etc.      |
++---------------------------+
+        </pre
+          >
+        </div>
+      </div>
+
+      <!-- 2. Key Features Overview -->
+      <div class="section">
+        <div class="subheading">Section 2</div>
+        <h2>Key Features of Amazon MWAA</h2>
+
+        <p>From the AWS features page, Amazon MWAA focuses on:</p>
+
+        <table>
+          <tr>
+            <th>Feature</th>
+            <th>What it means</th>
+          </tr>
+          <tr>
+            <td>Easy Airflow deployment</td>
+            <td>
+              Quickly create Airflow environments via console, CLI, SDK, or
+              CloudFormation.
+            </td>
+          </tr>
+          <tr>
+            <td>Automatic scaling</td>
+            <td>Workers scale up/down based on DAG/task load.</td>
+          </tr>
+          <tr>
+            <td>Built-in security</td>
+            <td>
+              VPC integration, IAM roles, KMS encryption, secure access to AWS
+              services.
+            </td>
+          </tr>
+          <tr>
+            <td>Centralized monitoring</td>
+            <td>
+              Logs &amp; metrics are sent to CloudWatch for dashboards and
+              alarms.
+            </td>
+          </tr>
+          <tr>
+            <td>Low operational overhead</td>
+            <td>
+              No need to manage Airflow servers, upgrades, or HA setup manually.
+            </td>
+          </tr>
+          <tr>
+            <td>Deep AWS integration</td>
+            <td>
+              Use Airflow operators/hooks to orchestrate S3, Glue, EMR,
+              Redshift, Lambda, etc.
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- 3. Easy Deployment -->
+      <div class="section">
+        <div class="subheading">Section 3</div>
+        <h2>Easy Apache Airflow Deployment</h2>
+
+        <p>
+          Amazon MWAA makes it straightforward to deploy Airflow environments.
+          You can create or manage an environment using:
+        </p>
+        <ul>
+          <li><strong>AWS Management Console</strong></li>
+          <li><strong>AWS CLI</strong></li>
+          <li><strong>AWS SDKs</strong> (e.g., Python boto3)</li>
+          <li><strong>AWS CloudFormation</strong> templates</li>
+        </ul>
+
+        <div class="image-box">
+          <strong>Image idea: Deployment paths into MWAA</strong>
+          <pre>
+Console  ─┐
+CLI      ├──> Amazon MWAA creates Airflow environment
+SDK      ┘
+        </pre
+          >
+          You pick Airflow version, environment size, VPC settings, logging, and
+          IAM roles.
+        </div>
+
+        <div class="w3-note">
+          You get the <strong>standard Airflow UI</strong> and behavior, but AWS
+          handles: environment provisioning, scaling, patching, and underlying
+          infrastructure.
+        </div>
+      </div>
+
+      <!-- 4. Automatic Scaling -->
+      <div class="section">
+        <div class="subheading">Section 4</div>
+        <h2>Automatic Scaling of Airflow Workers</h2>
+
+        <p>
+          Amazon MWAA can automatically scale worker nodes based on task queue
+          and resource usage:
+        </p>
+
+        <ul>
+          <li>
+            <strong>More workers</strong> when DAGs have many tasks waiting.
+          </li>
+          <li><strong>Fewer workers</strong> when the workload is light.</li>
+        </ul>
+
+        <div class="image-box">
+          <strong>Image idea: Scaling up and down</strong>
+          <pre>
+Low load:
+  [ 1 worker ]  → tasks complete easily
+
+High load:
+  [ 4 workers ] → tasks run in parallel, queue drains faster
+
+MWAA automatically adjusts the worker count within configured limits.
+        </pre
+          >
+        </div>
+
+        <div class="w3-note">
+          This is ideal for <strong>variable workloads</strong>: small daily
+          jobs + large month-end / quarter-end processing.
+        </div>
+      </div>
+
+      <!-- 5. Security -->
+      <div class="section">
+        <div class="subheading">Section 5</div>
+        <h2>Built-in Security: VPC, IAM, and KMS</h2>
+
+        <p>Amazon MWAA follows AWS best practices for security:</p>
+        <ul>
+          <li>
+            Runs inside your <strong>Amazon VPC</strong>: you control subnets,
+            security groups, and routing.
+          </li>
+          <li>
+            <strong>IAM roles &amp; policies</strong> to allow Airflow tasks to
+            access S3, Glue, EMR, etc.
+          </li>
+          <li>
+            <strong>Encryption with AWS KMS</strong>: data at rest, environment
+            metadata, and connection secrets.
+          </li>
+        </ul>
+
+        <div class="image-box">
+          <strong>Image idea: Security layers</strong>
+          <pre>
++------------------------------+
+|     IAM Policies & Roles     |
++------------------------------+
+|   KMS Encryption (data)      |
++------------------------------+
+|   VPC (network isolation)    |
++------------------------------+
+| Amazon MWAA Airflow Env      |
++------------------------------+
+        </pre
+          >
+        </div>
+
+        <div class="w3-note">
+          For data engineering pipelines (sensitive/PII data), this combination
+          of
+          <strong>IAM + VPC + KMS</strong> is crucial for compliance and
+          least-privilege access.
+        </div>
+      </div>
+
+      <!-- 6. Monitoring -->
+      <div class="section">
+        <div class="subheading">Section 6</div>
+        <h2>Monitoring and Logging with CloudWatch</h2>
+
+        <p>
+          Amazon MWAA integrates <strong>Airflow logs and metrics</strong> with
+          <strong>Amazon CloudWatch</strong>:
+        </p>
+        <ul>
+          <li>Task logs per Airflow task instance.</li>
+          <li>Environment metrics: scheduler health, worker metrics, etc.</li>
+          <li>CloudWatch dashboards and alarms for failures or delays.</li>
+        </ul>
+
+        <div class="image-box">
+          <strong>Image idea: Monitoring flow</strong>
+          <pre>
+MWAA (Airflow)
+   |
+   +--> CloudWatch Logs & Metrics
+            |
+            +--> Dashboards (status)
+            +--> Alarms (email/SNS)
+            +--> Integration with other tools
+        </pre
+          >
+        </div>
+
+        <div class="w3-note">
+          You still use the Airflow UI for DAG-level monitoring, but CloudWatch
+          lets you centralize logs &amp; alerts with the rest of your AWS stack.
+        </div>
+      </div>
+
+      <!-- 7. Deep AWS Integration -->
+      <div class="section">
+        <div class="subheading">Section 7</div>
+        <h2>Deep Integration with AWS Services</h2>
+
+        <p>
+          MWAA supports the full Airflow ecosystem, plus specialized
+          <strong>AWS operators and hooks</strong> to orchestrate:
+        </p>
+
+        <ul>
+          <li>
+            <strong>Storage &amp; data lake</strong>: Amazon S3, Kinesis, Data
+            Lake flows
+          </li>
+          <li>
+            <strong>Compute</strong>: AWS Batch, Amazon EMR, ECS/Fargate, EKS,
+            Lambda
+          </li>
+          <li>
+            <strong>Analytics &amp; databases</strong>: Redshift, Athena,
+            DynamoDB
+          </li>
+          <li><strong>ML/AI</strong>: SageMaker</li>
+          <li>
+            <strong>Integration &amp; messaging</strong>: Glue, SNS, SQS,
+            DataSync
+          </li>
+        </ul>
+
+        <div class="image-box">
+          <strong>Image idea: MWAA orchestrating AWS services</strong>
+          <pre>
+          +---------------------+
+          | Amazon MWAA (DAGs)  |
+          +----------+----------+
+                     |
+   +-----------------+--------------------+
+   |     |      |        |        |      |
+  S3   Glue    EMR    Redshift  Lambda  SageMaker
+        </pre
+          >
+        </div>
+
+        <div class="w3-note">
+          You can also orchestrate <strong>on-premises systems</strong> or
+          external APIs from MWAA using Airflow’s extensible operator/plugin
+          model.
+        </div>
+      </div>
+
+      <!-- 8. Real-world Example -->
+      <div class="section">
+        <div class="subheading">Section 8</div>
+        <h2>Real-World Data Engineering Pipeline on Amazon MWAA</h2>
+
+        <p><strong>Scenario:</strong></p>
+        <p>A daily pipeline that:</p>
+        <ol>
+          <li>Reads raw sales data from <strong>Amazon S3</strong>.</li>
+          <li>
+            Runs an <strong>AWS Glue</strong> ETL job to clean &amp; transform
+            data.
+          </li>
+          <li>
+            Loads the processed data into
+            <strong>Amazon Redshift</strong> tables.
+          </li>
+          <li>Sends a <strong>notification via SNS</strong> on success.</li>
+        </ol>
+
+        <div class="image-box">
+          <strong>Image idea: End-to-end pipeline</strong>
+          <pre>
+S3 (raw) --> Glue ETL --> S3 (processed) --> Redshift --> BI Reports
+  ^                                             |
+  |                                             v
+  +------------- Orchestrated by MWAA (Airflow DAG) ------+
+        </pre
+          >
+        </div>
+
+        <div class="w3-example">
+          <strong>Example DAG skeleton (Python)</strong>
+          <div class="w3-code">
+            from datetime import datetime, timedelta from airflow import DAG
+            from airflow.operators.empty import EmptyOperator from
+            airflow.providers.amazon.aws.operators.glue import GlueJobOperator
+            from airflow.providers.amazon.aws.operators.redshift_sql import
+            RedshiftSQLOperator from airflow.providers.amazon.aws.operators.sns
+            import SnsPublishOperator default_args = { "owner": "data_eng",
+            "retries": 1, "retry_delay": timedelta(minutes=10), } with DAG(
+            dag_id="daily_s3_glue_redshift_pipeline", start_date=datetime(2025,
+            1, 1), schedule_interval="0 1 * * *", # daily at 1 AM catchup=False,
+            default_args=default_args, ) as dag: start =
+            EmptyOperator(task_id="start") run_glue_etl = GlueJobOperator(
+            task_id="run_glue_etl", job_name="daily_sales_glue_job",
+            script_location="s3://my-etl-scripts/sales_etl.py",
+            region_name="us-east-1", script_args={ "--input_path":
+            "s3://my-raw-bucket/sales/{{ ds }}", "--output_path":
+            "s3://my-processed-bucket/sales/{{ ds }}", }, ) load_redshift =
+            RedshiftSQLOperator( task_id="load_redshift", sql=\"\"\" COPY
+            analytics.sales FROM 's3://my-processed-bucket/sales/{{ ds }}'
+            IAM_ROLE 'arn:aws:iam::123456789012:role/myRedshiftRole' FORMAT AS
+            PARQUET; \"\"\", redshift_conn_id="my_redshift_conn", )
+            notify_success = SnsPublishOperator( task_id="notify_success",
+            target_arn="arn:aws:sns:us-east-1:123456789012:etl-notifications",
+            message="Daily sales pipeline completed successfully for {{ ds }}.",
+            subject="MWAA Pipeline Success", ) start >> run_glue_etl >>
+            load_redshift >> notify_success
+          </div>
+        </div>
+
+        <div class="w3-note">
+          <strong>Teaching angle:</strong><br />
+          Show students how a single MWAA DAG coordinates several AWS services
+          and how logs &amp; metrics are visible in both the Airflow UI and
+          CloudWatch.
+        </div>
+      </div>
+
+      <!-- 9. Summary / Interview Points -->
+      <div class="section">
+        <div class="subheading">Section 9</div>
+        <h2>Amazon MWAA – Summary & Interview Points</h2>
+
+        <div class="bullet-box">
+          <strong>Q: What is Amazon MWAA?</strong><br />
+          A: Amazon Managed Workflows for Apache Airflow (MWAA) is a fully
+          managed Apache Airflow service on AWS. It runs your Airflow DAGs while
+          AWS manages the underlying infrastructure, scaling, security, and
+          integration with AWS services.
+        </div>
+
+        <div class="bullet-box">
+          <strong>Q: Why use MWAA instead of self-hosted Airflow?</strong><br />
+          A: MWAA removes the operational burden of provisioning, patching,
+          scaling, and securing Airflow. You focus on DAG logic while AWS
+          ensures high availability, CloudWatch monitoring, IAM integration, and
+          secure VPC deployment.
+        </div>
+
+        <div class="bullet-box">
+          <strong>Q: How is MWAA helpful for Data Engineering?</strong><br />
+          A: MWAA orchestrates complex ETL/ELT workflows that use S3, Glue, EMR,
+          Redshift, Lambda, SageMaker, etc. It gives centralized scheduling,
+          retry logic, logging, and alerting, all using standard Apache Airflow
+          concepts (DAGs, tasks, operators).
+        </div>
+
+        <div class="bullet-box">
+          <strong>Q: Can I reuse my existing Airflow knowledge and DAGs?</strong
+          ><br />
+          A: Yes. MWAA runs <strong>open-source Apache Airflow</strong>, so you
+          can reuse your existing DAGs, plugins, and patterns with minimal
+          changes, while taking advantage of AWS-managed infrastructure.
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
