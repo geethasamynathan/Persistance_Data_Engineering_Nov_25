@@ -1,0 +1,15 @@
+[2025-12-02T02:09:52.139+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: weather_etl_dag.extract_weather_data scheduled__2025-12-01T00:00:00+00:00 [queued]>
+[2025-12-02T02:09:52.300+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: weather_etl_dag.extract_weather_data scheduled__2025-12-01T00:00:00+00:00 [queued]>
+[2025-12-02T02:09:52.330+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 1
+[2025-12-02T02:09:52.411+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): extract_weather_data> on 2025-12-01 00:00:00+00:00
+[2025-12-02T02:09:52.426+0000] {standard_task_runner.py:60} INFO - Started process 22897 to run task
+[2025-12-02T02:09:52.445+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'weather_etl_dag', 'extract_weather_data', 'scheduled__2025-12-01T00:00:00+00:00', '--job-id', '136', '--raw', '--subdir', 'DAGS_FOLDER/weather_etl_dag.py', '--cfg-path', '/tmp/tmpuqw18640']
+[2025-12-02T02:09:52.448+0000] {standard_task_runner.py:88} INFO - Job 136: Subtask extract_weather_data
+[2025-12-02T02:09:52.588+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.8/site-packages/***/settings.py:194 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2025-12-02T02:09:52.700+0000] {task_command.py:423} INFO - Running <TaskInstance: weather_etl_dag.extract_weather_data scheduled__2025-12-01T00:00:00+00:00 [running]> on host a9412d0cab59
+[2025-12-02T02:09:53.134+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='weather_etl_dag' AIRFLOW_CTX_TASK_ID='extract_weather_data' AIRFLOW_CTX_EXECUTION_DATE='2025-12-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-12-01T00:00:00+00:00'
+[2025-12-02T02:09:54.730+0000] {logging_mixin.py:188} INFO - Weather data extracted successfully: {'latitude': 28.625, 'longitude': 77.25, 'generationtime_ms': 0.06377696990966797, 'utc_offset_seconds': 0, 'timezone': 'GMT', 'timezone_abbreviation': 'GMT', 'elevation': 224.0, 'current_weather_units': {'time': 'iso8601', 'interval': 'seconds', 'temperature': '°C', 'windspeed': 'km/h', 'winddirection': '°', 'is_day': '', 'weathercode': 'wmo code'}, 'current_weather': {'time': '2025-12-02T02:00', 'interval': 900, 'temperature': 11.2, 'windspeed': 2.3, 'winddirection': 108, 'is_day': 1, 'weathercode': 2}}
+[2025-12-02T02:09:54.738+0000] {python.py:201} INFO - Done. Returned value was: None
+[2025-12-02T02:09:54.766+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=weather_etl_dag, task_id=extract_weather_data, execution_date=20251201T000000, start_date=20251202T020952, end_date=20251202T020954
+[2025-12-02T02:09:54.877+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2025-12-02T02:09:54.988+0000] {taskinstance.py:3280} INFO - 1 downstream tasks scheduled from follow-on schedule check

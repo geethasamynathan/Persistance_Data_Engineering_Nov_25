@@ -1,0 +1,17 @@
+[2025-12-02T05:39:45.587+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: example_s3_hook.list_s3_files manual__2025-12-02T05:39:44.157572+00:00 [queued]>
+[2025-12-02T05:39:45.601+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: example_s3_hook.list_s3_files manual__2025-12-02T05:39:44.157572+00:00 [queued]>
+[2025-12-02T05:39:45.602+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 1
+[2025-12-02T05:39:45.626+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): list_s3_files> on 2025-12-02 05:39:44.157572+00:00
+[2025-12-02T05:39:45.631+0000] {standard_task_runner.py:60} INFO - Started process 2776 to run task
+[2025-12-02T05:39:45.636+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'example_s3_hook', 'list_s3_files', 'manual__2025-12-02T05:39:44.157572+00:00', '--job-id', '150', '--raw', '--subdir', 'DAGS_FOLDER/list_s3_files.py', '--cfg-path', '/tmp/tmp13av5h5_']
+[2025-12-02T05:39:45.641+0000] {standard_task_runner.py:88} INFO - Job 150: Subtask list_s3_files
+[2025-12-02T05:39:45.664+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.8/site-packages/***/settings.py:194 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2025-12-02T05:39:45.717+0000] {task_command.py:423} INFO - Running <TaskInstance: example_s3_hook.list_s3_files manual__2025-12-02T05:39:44.157572+00:00 [running]> on host c001bafadc9d
+[2025-12-02T05:39:45.819+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='example_s3_hook' AIRFLOW_CTX_TASK_ID='list_s3_files' AIRFLOW_CTX_EXECUTION_DATE='2025-12-02T05:39:44.157572+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-12-02T05:39:44.157572+00:00'
+[2025-12-02T05:39:45.833+0000] {base.py:83} INFO - Using connection ID 'aws_default' for task execution.
+[2025-12-02T05:39:45.834+0000] {connection_wrapper.py:378} INFO - AWS Connection (conn_id='aws_default', conn_type='aws') credentials retrieved from login and password.
+[2025-12-02T05:39:46.810+0000] {logging_mixin.py:188} INFO - Files: ['dags/', 'dags/data.json', 'dags/first_dag.py', 'dags/list_s3_files.py', 'dags/parameterized_dag.py', 'plugins/', 'requirements/', 'requirements/requirements.txt']
+[2025-12-02T05:39:46.813+0000] {python.py:201} INFO - Done. Returned value was: None
+[2025-12-02T05:39:46.822+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=example_s3_hook, task_id=list_s3_files, execution_date=20251202T053944, start_date=20251202T053945, end_date=20251202T053946
+[2025-12-02T05:39:46.854+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2025-12-02T05:39:46.870+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

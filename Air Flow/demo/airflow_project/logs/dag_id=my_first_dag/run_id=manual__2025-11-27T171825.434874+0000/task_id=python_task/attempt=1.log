@@ -1,0 +1,15 @@
+[2025-11-27T17:18:28.316+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: my_first_dag.python_task manual__2025-11-27T17:18:25.434874+00:00 [queued]>
+[2025-11-27T17:18:28.324+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: my_first_dag.python_task manual__2025-11-27T17:18:25.434874+00:00 [queued]>
+[2025-11-27T17:18:28.325+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 1
+[2025-11-27T17:18:28.337+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): python_task> on 2025-11-27 17:18:25.434874+00:00
+[2025-11-27T17:18:28.342+0000] {standard_task_runner.py:60} INFO - Started process 217 to run task
+[2025-11-27T17:18:28.344+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'my_first_dag', 'python_task', 'manual__2025-11-27T17:18:25.434874+00:00', '--job-id', '8', '--raw', '--subdir', 'DAGS_FOLDER/first_dag.py', '--cfg-path', '/tmp/tmp5d7acswh']
+[2025-11-27T17:18:28.346+0000] {standard_task_runner.py:88} INFO - Job 8: Subtask python_task
+[2025-11-27T17:18:28.357+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.8/site-packages/***/settings.py:194 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2025-11-27T17:18:28.385+0000] {task_command.py:423} INFO - Running <TaskInstance: my_first_dag.python_task manual__2025-11-27T17:18:25.434874+00:00 [running]> on host 31879b3673f8
+[2025-11-27T17:18:28.450+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='my_first_dag' AIRFLOW_CTX_TASK_ID='python_task' AIRFLOW_CTX_EXECUTION_DATE='2025-11-27T17:18:25.434874+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-11-27T17:18:25.434874+00:00'
+[2025-11-27T17:18:28.451+0000] {logging_mixin.py:188} INFO - Hello from Python Operator!
+[2025-11-27T17:18:28.451+0000] {python.py:201} INFO - Done. Returned value was: None
+[2025-11-27T17:18:28.459+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=my_first_dag, task_id=python_task, execution_date=20251127T171825, start_date=20251127T171828, end_date=20251127T171828
+[2025-11-27T17:18:28.476+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2025-11-27T17:18:28.489+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

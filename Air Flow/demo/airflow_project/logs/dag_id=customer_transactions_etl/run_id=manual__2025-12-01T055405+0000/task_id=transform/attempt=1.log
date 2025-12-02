@@ -1,0 +1,16 @@
+[2025-12-01T05:54:27.370+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: customer_transactions_etl.transform manual__2025-12-01T05:54:05+00:00 [queued]>
+[2025-12-01T05:54:27.387+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: customer_transactions_etl.transform manual__2025-12-01T05:54:05+00:00 [queued]>
+[2025-12-01T05:54:27.389+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 1
+[2025-12-01T05:54:27.418+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): transform> on 2025-12-01 05:54:05+00:00
+[2025-12-01T05:54:27.428+0000] {standard_task_runner.py:60} INFO - Started process 590 to run task
+[2025-12-01T05:54:27.431+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'customer_transactions_etl', 'transform', 'manual__2025-12-01T05:54:05+00:00', '--job-id', '134', '--raw', '--subdir', 'DAGS_FOLDER/parameterized_dag.py', '--cfg-path', '/tmp/tmpnrk8uw_t']
+[2025-12-01T05:54:27.435+0000] {standard_task_runner.py:88} INFO - Job 134: Subtask transform
+[2025-12-01T05:54:27.456+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.8/site-packages/***/settings.py:194 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2025-12-01T05:54:27.508+0000] {task_command.py:423} INFO - Running <TaskInstance: customer_transactions_etl.transform manual__2025-12-01T05:54:05+00:00 [running]> on host a9412d0cab59
+[2025-12-01T05:54:27.632+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='customer_transactions_etl' AIRFLOW_CTX_TASK_ID='transform' AIRFLOW_CTX_EXECUTION_DATE='2025-12-01T05:54:05+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-12-01T05:54:05+00:00'
+[2025-12-01T05:54:27.647+0000] {logging_mixin.py:188} INFO - Transforming 282 transactions...
+[2025-12-01T05:54:28.649+0000] {logging_mixin.py:188} INFO - Cleaned records: 276.36
+[2025-12-01T05:54:28.650+0000] {python.py:201} INFO - Done. Returned value was: 276.36
+[2025-12-01T05:54:28.697+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=customer_transactions_etl, task_id=transform, execution_date=20251201T055405, start_date=20251201T055427, end_date=20251201T055428
+[2025-12-01T05:54:28.770+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2025-12-01T05:54:28.819+0000] {taskinstance.py:3280} INFO - 1 downstream tasks scheduled from follow-on schedule check

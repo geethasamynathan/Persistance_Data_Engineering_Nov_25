@@ -1,0 +1,63 @@
+[2025-11-28T07:35:19.811+0000] {processor.py:161} INFO - Started process (PID=166) to work on /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:35:19.816+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/dynamic_parameterised_dag.py for tasks to queue
+[2025-11-28T07:35:19.820+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:35:19.818+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:35:19.898+0000] {processor.py:840} INFO - DAG(s) 'dynamic_parameterized_store_etl' retrieved from /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:35:20.058+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:35:20.058+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-28T07:35:20.111+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:35:20.110+0000] {dag.py:3823} INFO - Setting next_dagrun for dynamic_parameterized_store_etl to None, run_after=None
+[2025-11-28T07:35:20.162+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/dynamic_parameterised_dag.py took 0.379 seconds
+[2025-11-28T07:35:50.450+0000] {processor.py:161} INFO - Started process (PID=195) to work on /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:35:50.452+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/dynamic_parameterised_dag.py for tasks to queue
+[2025-11-28T07:35:50.454+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:35:50.454+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:35:50.487+0000] {processor.py:840} INFO - DAG(s) 'dynamic_parameterized_store_etl' retrieved from /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:35:50.731+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:35:50.730+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-28T07:35:50.744+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:35:50.744+0000] {dag.py:3823} INFO - Setting next_dagrun for dynamic_parameterized_store_etl to None, run_after=None
+[2025-11-28T07:35:50.772+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/dynamic_parameterised_dag.py took 0.326 seconds
+[2025-11-28T07:36:21.160+0000] {processor.py:161} INFO - Started process (PID=210) to work on /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:36:21.161+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/dynamic_parameterised_dag.py for tasks to queue
+[2025-11-28T07:36:21.163+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:36:21.162+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:36:21.195+0000] {processor.py:840} INFO - DAG(s) 'dynamic_parameterized_store_etl' retrieved from /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:36:21.243+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:36:21.243+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-28T07:36:21.257+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:36:21.256+0000] {dag.py:3823} INFO - Setting next_dagrun for dynamic_parameterized_store_etl to None, run_after=None
+[2025-11-28T07:36:21.283+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/dynamic_parameterised_dag.py took 0.129 seconds
+[2025-11-28T07:36:51.603+0000] {processor.py:161} INFO - Started process (PID=225) to work on /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:36:51.604+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/dynamic_parameterised_dag.py for tasks to queue
+[2025-11-28T07:36:51.606+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:36:51.605+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:36:51.641+0000] {processor.py:840} INFO - DAG(s) 'dynamic_parameterized_store_etl' retrieved from /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:36:51.695+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:36:51.694+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-28T07:36:51.709+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:36:51.709+0000] {dag.py:3823} INFO - Setting next_dagrun for dynamic_parameterized_store_etl to None, run_after=None
+[2025-11-28T07:36:51.733+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/dynamic_parameterised_dag.py took 0.136 seconds
+[2025-11-28T07:37:21.889+0000] {processor.py:161} INFO - Started process (PID=240) to work on /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:37:21.893+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/dynamic_parameterised_dag.py for tasks to queue
+[2025-11-28T07:37:21.894+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:37:21.894+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:37:21.929+0000] {processor.py:840} INFO - DAG(s) 'dynamic_parameterized_store_etl' retrieved from /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:37:22.002+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:37:22.002+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-28T07:37:22.023+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:37:22.022+0000] {dag.py:3823} INFO - Setting next_dagrun for dynamic_parameterized_store_etl to None, run_after=None
+[2025-11-28T07:37:22.057+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/dynamic_parameterised_dag.py took 0.175 seconds
+[2025-11-28T07:37:52.397+0000] {processor.py:161} INFO - Started process (PID=255) to work on /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:37:52.399+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/dynamic_parameterised_dag.py for tasks to queue
+[2025-11-28T07:37:52.400+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:37:52.400+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:37:52.422+0000] {processor.py:840} INFO - DAG(s) 'dynamic_parameterized_store_etl' retrieved from /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:37:52.435+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:37:52.434+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-28T07:37:52.447+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:37:52.447+0000] {dag.py:3823} INFO - Setting next_dagrun for dynamic_parameterized_store_etl to None, run_after=None
+[2025-11-28T07:37:52.472+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/dynamic_parameterised_dag.py took 0.078 seconds
+[2025-11-28T07:38:22.832+0000] {processor.py:161} INFO - Started process (PID=270) to work on /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:38:22.833+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/dynamic_parameterised_dag.py for tasks to queue
+[2025-11-28T07:38:22.835+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:38:22.834+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:38:22.859+0000] {processor.py:840} INFO - DAG(s) 'dynamic_parameterized_store_etl' retrieved from /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:38:23.018+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:38:23.017+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-28T07:38:23.030+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:38:23.030+0000] {dag.py:3823} INFO - Setting next_dagrun for dynamic_parameterized_store_etl to None, run_after=None
+[2025-11-28T07:38:23.054+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/dynamic_parameterised_dag.py took 0.227 seconds
+[2025-11-28T07:38:53.560+0000] {processor.py:161} INFO - Started process (PID=285) to work on /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:38:53.561+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/dynamic_parameterised_dag.py for tasks to queue
+[2025-11-28T07:38:53.562+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:38:53.562+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:38:53.589+0000] {processor.py:840} INFO - DAG(s) 'dynamic_parameterized_store_etl' retrieved from /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:38:53.651+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:38:53.651+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-28T07:38:53.666+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:38:53.665+0000] {dag.py:3823} INFO - Setting next_dagrun for dynamic_parameterized_store_etl to None, run_after=None
+[2025-11-28T07:38:53.686+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/dynamic_parameterised_dag.py took 0.131 seconds
+[2025-11-28T07:39:23.746+0000] {processor.py:161} INFO - Started process (PID=300) to work on /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:39:23.749+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/dynamic_parameterised_dag.py for tasks to queue
+[2025-11-28T07:39:23.752+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:39:23.751+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:39:23.783+0000] {processor.py:840} INFO - DAG(s) 'dynamic_parameterized_store_etl' retrieved from /opt/airflow/dags/dynamic_parameterised_dag.py
+[2025-11-28T07:39:23.830+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:39:23.830+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2025-11-28T07:39:23.844+0000] {logging_mixin.py:188} INFO - [2025-11-28T07:39:23.844+0000] {dag.py:3823} INFO - Setting next_dagrun for dynamic_parameterized_store_etl to None, run_after=None
+[2025-11-28T07:39:23.870+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/dynamic_parameterised_dag.py took 0.128 seconds

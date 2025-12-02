@@ -1,0 +1,35 @@
+[2025-11-29T10:08:48.914+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: weather_etl_dag.success_task scheduled__2025-11-28T00:00:00+00:00 [queued]>
+[2025-11-29T10:08:48.932+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: weather_etl_dag.success_task scheduled__2025-11-28T00:00:00+00:00 [queued]>
+[2025-11-29T10:08:48.933+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 1
+[2025-11-29T10:08:48.957+0000] {taskinstance.py:2191} INFO - Executing <Task(EmailOperator): success_task> on 2025-11-28 00:00:00+00:00
+[2025-11-29T10:08:48.964+0000] {standard_task_runner.py:60} INFO - Started process 194 to run task
+[2025-11-29T10:08:48.967+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'weather_etl_dag', 'success_task', 'scheduled__2025-11-28T00:00:00+00:00', '--job-id', '87', '--raw', '--subdir', 'DAGS_FOLDER/weather_etl_dag.py', '--cfg-path', '/tmp/tmpl2_r3tza']
+[2025-11-29T10:08:48.970+0000] {standard_task_runner.py:88} INFO - Job 87: Subtask success_task
+[2025-11-29T10:08:48.990+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.8/site-packages/***/settings.py:194 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2025-11-29T10:08:49.037+0000] {task_command.py:423} INFO - Running <TaskInstance: weather_etl_dag.success_task scheduled__2025-11-28T00:00:00+00:00 [running]> on host 8be2f647c0a1
+[2025-11-29T10:08:49.129+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='weather_etl_dag' AIRFLOW_CTX_TASK_ID='success_task' AIRFLOW_CTX_EXECUTION_DATE='2025-11-28T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-11-28T00:00:00+00:00'
+[2025-11-29T10:08:49.141+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.8/site-packages/***/utils/email.py:154 RemovedInAirflow3Warning: Fetching SMTP credentials from configuration variables will be deprecated in a future release. Please set credentials using a connection instead.
+[2025-11-29T10:08:49.142+0000] {email.py:270} INFO - Email alerting: attempt 1
+[2025-11-29T10:08:52.262+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/email.py", line 79, in execute
+    send_email(
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/utils/email.py", line 80, in send_email
+    return backend(
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/utils/email.py", line 154, in send_email_smtp
+    send_mime_email(e_from=mail_from, e_to=recipients, mime_msg=msg, conn_id=conn_id, dryrun=dryrun)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/utils/email.py", line 280, in send_mime_email
+    smtp_conn.login(smtp_user, smtp_password)
+  File "/usr/local/lib/python3.8/smtplib.py", line 748, in login
+    raise last_exception
+  File "/usr/local/lib/python3.8/smtplib.py", line 737, in login
+    (code, resp) = self.auth(
+  File "/usr/local/lib/python3.8/smtplib.py", line 660, in auth
+    raise SMTPAuthenticationError(code, resp)
+smtplib.SMTPAuthenticationError: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-7d150b68805sm7591477b3a.9 - gsmtp')
+[2025-11-29T10:08:52.274+0000] {taskinstance.py:1138} INFO - Marking task as FAILED. dag_id=weather_etl_dag, task_id=success_task, execution_date=20251128T000000, start_date=20251129T100848, end_date=20251129T100852
+[2025-11-29T10:08:52.333+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 87 for task success_task ((535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-7d150b68805sm7591477b3a.9 - gsmtp'); 194)
+[2025-11-29T10:08:52.356+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2025-11-29T10:08:52.382+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check
