@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>
+      Spark Performance Anti-Patterns – W3Schools Style (Blue & Purple)
+    </title>
+
+    <style>
+      /* --------------------------
+GLOBAL PAGE STYLE
+---------------------------*/
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background-color: #f4f5ff;
+      }
+
+      /* Header */
+      .header {
+        background: linear-gradient(90deg, #4b4fff, #9b4eff);
+        color: white;
+        padding: 18px 40px;
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      /* --------------------------
+SIDEBAR NAVIGATION
+---------------------------*/
+      .sidebar {
+        width: 260px;
+        background: #e8e4ff;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding-top: 70px;
+        border-right: 2px solid #d1c6ff;
+        overflow-y: auto;
+      }
+
+      .sidebar a {
+        padding: 12px 22px;
+        display: block;
+        color: #4b4fff;
+        font-size: 16px;
+        text-decoration: none;
+        border-bottom: 1px solid #dcd6ff;
+        transition: 0.3s;
+      }
+
+      .sidebar a:hover {
+        background-color: #dcd6ff;
+        color: #5e10d1;
+        font-weight: bold;
+      }
+
+      /* --------------------------
+CONTENT AREA
+---------------------------*/
+      .content {
+        margin-left: 280px;
+        padding: 30px 50px;
+      }
+
+      h2 {
+        color: #4b4fff;
+        border-left: 5px solid #9b4eff;
+        padding-left: 10px;
+      }
+
+      /* Highlight box */
+      .info-box {
+        background: #eef0ff;
+        border-left: 5px solid #7a32ff;
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 6px;
+      }
+
+      /* Code block */
+      .code-box {
+        background: #1e1e2f;
+        color: #e6e6ff;
+        padding: 15px;
+        border-radius: 6px;
+        margin: 15px 0;
+        font-family: Consolas, monospace;
+        white-space: pre-wrap;
+      }
+
+      /* Navigation buttons */
+      .nav-buttons {
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .btn {
+        background: linear-gradient(90deg, #4b4fff, #9b4eff);
+        border: none;
+        padding: 10px 20px;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 6px;
+        transition: 0.3s;
+      }
+
+      .btn:hover {
+        opacity: 0.85;
+      }
+
+      /* Responsive */
+      @media screen and (max-width: 900px) {
+        .sidebar {
+          width: 200px;
+        }
+        .content {
+          margin-left: 220px;
+        }
+      }
+
+      @media screen and (max-width: 600px) {
+        .sidebar {
+          position: relative;
+          width: 100%;
+          height: auto;
+        }
+        .content {
+          margin-left: 0;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="header">
+      🔥 Spark Performance Anti-Patterns (Modern Blue-Purple Theme)
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <a href="#1">1. Not Using Spark Built-in Functions</a>
+      <a href="#2">2. Unnecessary UDF Usage</a>
+      <a href="#3">3. Using count() for Existence Check</a>
+      <a href="#4">4. Overusing collect()</a>
+      <a href="#5">5. Misusing explode()</a>
+      <a href="#6">6. Cross Join Without Conditions</a>
+      <a href="#7">7. Small File Problem</a>
+      <a href="#8">8. Not Using Broadcast Join</a>
+      <a href="#9">9. Overusing repartition()</a>
+      <a href="#10">10. No Partitioning Strategy</a>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="content">
+      <!--------------------------------->
+      <h2 id="1">1. Not Using Spark Built-In Functions</h2>
+      <div class="info-box">
+        Spark performs best when using **native SQL functions**. Python loops
+        run on the driver and kill performance.
+      </div>
+
+      <p><b>❌ Wrong Approach (Slow – runs on driver)</b></p>
+      <div class="code-box">
+        rows = df.collect() totals = [] for r in rows: totals.append(r.price *
+        r.quantity)
+      </div>
+
+      <p><b>✔ Correct Approach (Fast – runs on executors)</b></p>
+      <div class="code-box">
+        from pyspark.sql import functions as F df = df.withColumn("total",
+        F.col("price") * F.col("quantity"))
+      </div>
+
+      <div class="info-box">
+        Real-World Example: A retail company calculates totals for 50 million
+        orders. Native Spark functions compute in **parallel on the cluster**,
+        reducing processing from minutes to seconds.
+      </div>
+
+      <!--------------------------------->
+      <h2 id="2">2. Unnecessary UDF Usage</h2>
+      <div class="info-box">
+        UDFs force Spark to hand data to Python, causing serialization overhead
+        and slow execution.
+      </div>
+
+      <p><b>❌ Slow UDF</b></p>
+      <div class="code-box">
+        @udf("string") def clean(x): return x.strip().lower() df =
+        df.withColumn("city_clean", clean(F.col("city")))
+      </div>
+
+      <p><b>✔ Fast Native Operations</b></p>
+      <div class="code-box">
+        df = df.withColumn("city_clean", F.lower(F.trim("city")))
+      </div>
+
+      <!--------------------------------->
+      <h2 id="3">3. Using count() to Check If Data Exists</h2>
+      <div class="info-box">
+        count() scans the entire dataset even if you only need the first row.
+      </div>
+
+      <p><b>✔ Better:</b></p>
+      <div class="code-box">df.head(1)</div>
+
+      <!--------------------------------->
+      <h2 id="4">4. Overusing collect()</h2>
+      <div class="info-box">
+        collect() pulls all data to the driver → crashes for large datasets.
+      </div>
+
+      <p><b>✔ Replace with:</b></p>
+      <div class="code-box">df.show(20) df.limit(100).toPandas()</div>
+
+      <!--------------------------------->
+      <h2 id="5">5. Misusing explode()</h2>
+      <div class="info-box">
+        explode() can multiply billions of rows if used incorrectly.
+      </div>
+
+      <p><b>✔ Optimized explode</b></p>
+      <div class="code-box">
+        df = df.filter(F.size("items") > 0) df =
+        df.select(F.explode("items").alias("item"))
+      </div>
+
+      <!--------------------------------->
+      <h2 id="6">6. Cross Join Without Conditions</h2>
+      <div class="info-box">
+        Cross join = Cartesian explosion → slowest operation in Spark.
+      </div>
+
+      <p><b>✔ Always join with a key</b></p>
+      <div class="code-box">df1.join(df2, "product_id")</div>
+
+      <!--------------------------------->
+      <h2 id="7">7. Small File Problem</h2>
+      <div class="info-box">
+        Thousands of tiny files cause task explosion and slow reads.
+      </div>
+
+      <p><b>✔ Fix:</b></p>
+      <div class="code-box">df.repartition(20).write.parquet("path")</div>
+
+      <!--------------------------------->
+      <h2 id="8">8. Not Using Broadcast Join</h2>
+      <div class="info-box">
+        Broadcasting a small lookup table avoids shuffle and speeds up joins
+        10X.
+      </div>
+
+      <div class="code-box">df_large.join(broadcast(df_small), "id")</div>
+
+      <!--------------------------------->
+      <h2 id="9">9. Overusing repartition()</h2>
+      <div class="info-box">
+        repartition() always shuffles → expensive Use only with reason. Use
+        coalesce() to reduce partitions.
+      </div>
+
+      <div class="code-box">df.coalesce(10)</div>
+
+      <!--------------------------------->
+      <h2 id="10">10. No Partitioning Strategy</h2>
+      <div class="info-box">
+        Partitioning improves read performance by skipping irrelevant folders.
+      </div>
+
+      <p><b>✔ Write with partitioning</b></p>
+      <div class="code-box">
+        df.write.partitionBy("year", "country").parquet("s3://sales/")
+      </div>
+
+      <!--------------------------------->
+      <!-- Navigation Buttons -->
+      <div class="nav-buttons">
+        <a class="btn" href="#1">⬅ Previous</a>
+        <a class="btn" href="#10">Next ➡</a>
+      </div>
+    </div>
+    <!-- end content -->
+  </body>
+</html>
