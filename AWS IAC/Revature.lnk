@@ -1,0 +1,161 @@
+# AWS CDK IaC Tutorial (Python) — Create an S3 Bucket
+
+This tutorial shows how to use **AWS CDK (Cloud Development Kit)** to create AWS resources using **Infrastructure as Code (IaC)**.  
+We will create a **secure S3 bucket** using AWS CDK in **Python**.
+
+## Prerequisites
+
+### 1. AWS CLI Installed
+```
+aws --version
+```
+
+### 2. Configure AWS credentials
+```
+aws configure
+```
+
+### 3. Install Node.js (Required by CDK)
+Download → https://nodejs.org
+
+Check installation:
+```
+node -v
+npm -v
+```
+
+### 4. Install AWS CDK
+```
+npm install -g aws-cdk
+```
+
+Verify:
+```
+cdk --version
+```
+
+---
+
+# STEP 1 — Create a New CDK Project
+
+```
+mkdir cdk-demo
+cd cdk-demo
+cdk init app --language python
+```
+
+Folder structure:
+
+```
+cdk-demo/
+  ├── app.py
+  ├── cdk_demo
+  │    ├── cdk_demo_stack.py
+  ├── requirements.txt
+  └── README.md
+```
+
+---
+
+# STEP 2 — Activate Virtual Environment
+
+### Windows:
+```
+.\.venv\Scripts\activate
+```
+
+### Mac/Linux:
+```
+source .venv/bin/activate
+```
+
+Install dependencies:
+```
+pip install -r requirements.txt
+```
+
+---
+
+# STEP 3 — Install CDK Libraries
+
+```
+pip install aws-cdk-lib constructs
+```
+
+---
+
+# STEP 4 — Write IaC (Create S3 Bucket)
+
+Open:
+```
+cdk_demo/cdk_demo_stack.py
+```
+
+Replace with:
+
+```python
+from aws_cdk import (
+    Stack,
+    aws_s3 as s3
+)
+from constructs import Construct
+
+class CdkDemoStack(Stack):
+
+    def __init__(self, scope: Construct, construct_id: str, **kwargs):
+        super().__init__(scope, construct_id, **kwargs)
+
+        # Create S3 bucket
+        s3.Bucket(
+            self,
+            "MyDemoBucket",
+            versioned=True,
+            block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
+            encryption=s3.BucketEncryption.S3_MANAGED
+        )
+```
+
+---
+
+# STEP 5 — Synthesize CloudFormation Template
+
+```
+cdk synth
+```
+
+---
+
+# STEP 6 — Deploy the Stack
+
+```
+cdk deploy
+```
+
+---
+
+# STEP 7 — Update Resources
+
+```
+cdk diff
+cdk deploy
+```
+
+---
+
+# STEP 8 — Destroy Resources
+
+```
+cdk destroy
+```
+
+---
+
+# Summary
+
+You learned how to:
+
+- Initialize AWS CDK  
+- Write IaC using Python  
+- Generate CloudFormation templates  
+- Deploy an S3 Bucket  
+- Update and destroy infrastructure  
